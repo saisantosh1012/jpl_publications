@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Portal — JPL Publications</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div id="loader">
+  <svg viewBox="0 0 100 100"><path class="nib" d="M50 10 L65 40 L58 60 L50 90 L42 60 L35 40 Z"/></svg>
+  <span>JPL Publications</span>
+</div>
+
+<div class="topbar">
+  <div class="container">
+    <div class="tb-links"><span>ISSN Indexed</span><span>Peer&#8209;Reviewed</span><span>Est. <strong>2023</strong></span></div>
+    <div class="tb-links"><span>editor@jplpublications.org</span></div>
+  </div>
+</div>
+
+<header class="site-header" id="siteHeader">
+  <div class="container nav-inner">
+    <a class="brand" href="index.html">
+      <img src="jpl_logo.jpg" alt="JPL Publications logo">
+      <span class="brand-text"><span class="b1">JPL Publications</span><span class="b2">Academic &amp; Research Platform</span></span>
+    </a>
+    <nav class="tabs" id="navTabs">
+      <a class="tab-btn" href="index.html">Home</a>
+      <a class="tab-btn" href="about.html">About Us</a>
+      <a class="tab-btn" href="books.html">Books</a>
+      <div class="dropdown" id="consultDropdown">
+        <a class="tab-btn" href="consultancy.html" id="consultTrigger">Consultancy &#9662;</a>
+        <div class="dropdown-menu">
+          <a href="consultancy.html?track=journal">Journal Track</a>
+          <a href="consultancy.html?track=patent">Patent Track</a>
+        </div>
+      </div>
+      <a class="tab-btn" href="conference.html">ICCR Conference</a>
+      <a class="tab-btn" href="publications.html">Publications</a>
+      <a class="cta-btn gold active" href="admin.html" style="margin-left:.6rem;">Admin Portal</a>
+    </nav>
+    <button class="burger" id="burgerBtn" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="nav-scrim" id="navScrim"></div>
+
+<main>
+  <section class="page" id="page-admin">
+    <div class="section">
+      <div class="container">
+
+        <!-- LOGIN PANEL -->
+        <div class="admin-wrap" id="adminAuth">
+          <div class="login-card">
+            <div class="lock"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+            <h2 style="font-size:1.4rem;margin-bottom:.4rem;">Editorial Desk Login</h2>
+            <p style="font-size:.82rem;margin-bottom:1.4rem;">Sign in to publish new records and manage live content.</p>
+            <div class="login-error" id="loginErr">Invalid Username or Password</div>
+            <form id="loginForm">
+              <div class="field">
+                <label for="adminUser">Username</label>
+                <input type="text" id="adminUser" placeholder="jpl_admin" autocomplete="username" required>
+              </div>
+              <div class="field">
+                <label for="adminPass">Password</label>
+                <input type="password" id="adminPass" placeholder="••••••••" autocomplete="current-password" required>
+              </div>
+              <button class="cta-btn gold full-btn" type="submit" style="margin-top:.6rem;">Sign In to Dashboard</button>
+              <div class="hint-note">Default credentials:<br><strong>jpl_admin</strong> / <strong>JPL@Publish2026</strong></div>
+            </form>
+          </div>
+        </div>
+
+        <!-- DASHBOARD -->
+        <div class="admin-dash" id="adminDash">
+          <div class="dash-head">
+            <div>
+              <span class="eyebrow">Editorial Portal</span>
+              <h2>Publication Content Manager</h2>
+            </div>
+            <div style="display:flex;align-items:center;gap:1rem;">
+              <div class="dash-stats">
+                <div class="dash-stat"><b id="statTotal">0</b><span>Total Live</span></div>
+                <div class="dash-stat"><b id="statMonth">0</b><span>Added Month</span></div>
+              </div>
+              <button class="logout-btn" id="logoutBtn">Sign Out</button>
+            </div>
+          </div>
+
+          <div class="dash-grid">
+            <!-- FORM PANEL -->
+            <div class="panel">
+              <h3 id="formHeading"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg><span id="formTitleText">Add New Publication</span></h3>
+              <form id="pubForm">
+                <input type="hidden" id="editId" value="">
+                <div class="field">
+                  <label for="fTitle">Title *</label>
+                  <input type="text" id="fTitle" placeholder="Full paper or patent title" required>
+                </div>
+                <div class="field">
+                  <label for="fAuthors">Authors *</label>
+                  <input type="text" id="fAuthors" placeholder="Dr. A. Karthik, R. Menon" required>
+                </div>
+                <div class="row2">
+                  <div class="field">
+                    <label for="fCategory">Category *</label>
+                    <select id="fCategory">
+                      <option value="Journal">Journal</option>
+                      <option value="Patent">Patent</option>
+                      <option value="Conference">Conference</option>
+                      <option value="Ph.D. Thesis">Ph.D. Thesis</option>
+                      <option value="Book">Book</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label for="fDate">Publication Date *</label>
+                    <input type="date" id="fDate" required>
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="fLink">Reference Link (DOI or external URL)</label>
+                  <input type="text" id="fLink" placeholder="https://doi.org/10.1000/xyz123">
+                </div>
+                <div class="field">
+                  <label for="fDesc">Abstract / Description *</label>
+                  <textarea id="fDesc" placeholder="Provide a summary of the methodology, findings or scope..." required></textarea>
+                </div>
+
+                <!-- PDF UPLOAD BOX -->
+                <div class="field">
+                  <label>PDF Document (Optional, max 4MB)</label>
+                  <div class="file-drop" id="fileDrop">
+                    <input type="file" id="pdfFileInput" accept="application/pdf">
+                    <svg viewBox="0 0 24 24"><path d="M4 4h11a3 3 0 013 3v13H7a3 3 0 01-3-3V4z"/><path d="M4 17a3 3 0 013-3h11"/><path d="M12 9v6m-3-3l3-3 3 3"/></svg>
+                    <div class="fd-text" id="fdText">Click or drag &amp; drop PDF file here</div>
+                    <div class="fd-sub">Indexed &amp; stored on central server for global access</div>
+                  </div>
+                  <div id="fileChipWrap"></div>
+                </div>
+
+                <div style="display:flex;gap:.8rem;margin-top:1.4rem;">
+                  <button class="cta-btn gold" type="submit" id="saveBtn" style="flex:1;justify-content:center;">Publish to site</button>
+                  <button class="cta-btn" type="button" id="cancelEditBtn" style="display:none;background:transparent;color:var(--navy-900);box-shadow:none;border:1.5px solid rgba(16,25,45,.2);">Cancel</button>
+                </div>
+              </form>
+            </div>
+
+            <!-- TABLE PANEL -->
+            <div class="panel">
+              <h3><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg> Published Items</h3>
+              <div class="table-wrap" id="adminTableWrap"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <span class="brand-text" style="margin-bottom:1rem;display:flex;"><span class="b1" style="font-size:1.2rem;color:var(--white);">JPL Publications</span></span>
+        <p style="color:rgba(251,248,241,.65);max-width:280px;font-size:.85rem;">A multidisciplinary academic publishing and research platform &mdash; ethical review, global visibility.</p>
+      </div>
+      <div><h4>Navigate</h4><ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="books.html">Books</a></li>
+        <li><a href="conference.html">ICCR Conference</a></li>
+        <li><a href="publications.html">Publications</a></li>
+      </ul></div>
+      <div><h4>Services</h4><ul>
+        <li><a href="consultancy.html?track=journal">Journal Consultancy</a></li>
+        <li><a href="consultancy.html?track=patent">Patent Consultancy</a></li>
+        <li><a href="conference.html">Conferences</a></li>
+        <li><a href="publications.html">Ph.D. Thesis</a></li>
+      </ul></div>
+      <div><h4>Contact</h4><ul>
+        <li><a href="mailto:editor@jplpublications.org">editor@jplpublications.org</a></li>
+        <li><a href="admin.html">Admin Portal</a></li>
+      </ul></div>
+    </div>
+    <div class="foot-bottom">
+      <span>&copy; <span id="yearNow"></span> JPL Publications. All rights reserved.</span>
+      <span>Multidisciplinary &middot; Ethical &middot; Peer&#8209;Reviewed</span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<!-- PDF Modal Viewer -->
+<div class="pdf-modal" id="pdfModal">
+  <div class="pdf-modal-inner">
+    <div class="pdf-modal-head">
+      <h4 id="pdfModalTitle">Publication PDF</h4>
+      <div class="pdf-modal-actions">
+        <a class="icon-btn" id="pdfDownloadBtn" href="#" download title="Download"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4"/><path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg></a>
+        <button class="icon-btn" id="pdfCloseBtn" title="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+    </div>
+    <div class="pdf-modal-body" id="pdfModalBody">
+      <div class="pdf-modal-loading" id="pdfLoading"><span class="spinner"></span><span>Loading document&hellip;</span></div>
+      <iframe id="pdfFrame" style="display:none;"></iframe>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+var pendingPdf = null;
+var removeExistingPdfFlag = false;
+
+document.addEventListener('DOMContentLoaded', async function(){
+  await JPLData.loadPublications();
+
+  var fDate = document.getElementById('fDate');
+  if(fDate) fDate.valueAsDate = new Date();
+
+  if(sessionStorage.getItem('jpl_admin_auth') === 'true'){
+    showDashboard();
+  } else {
+    showAuth();
+  }
+
+  document.getElementById('loginForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var u = document.getElementById('adminUser').value.trim();
+    var p = document.getElementById('adminPass').value.trim();
+    if(u === 'jpl_admin' && p === 'JPL@Publish2026'){
+      sessionStorage.setItem('jpl_admin_auth', 'true');
+      showDashboard();
+    } else {
+      var err = document.getElementById('loginErr');
+      err.classList.add('show');
+      setTimeout(function(){ err.classList.remove('show'); }, 3000);
+    }
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', function(){
+    sessionStorage.removeItem('jpl_admin_auth');
+    showAuth();
+  });
+
+  var pdfFileInput = document.getElementById('pdfFileInput');
+  var fileDrop = document.getElementById('fileDrop');
+
+  if(pdfFileInput){
+    pdfFileInput.addEventListener('change', function(e){
+      if(e.target.files && e.target.files[0]){
+        handleSelectedPdf(e.target.files[0]);
+      }
+    });
+  }
+
+  if(fileDrop){
+    fileDrop.addEventListener('dragover', function(e){
+      e.preventDefault();
+      this.classList.add('drag');
+    });
+    fileDrop.addEventListener('dragleave', function(){
+      this.classList.remove('drag');
+    });
+    fileDrop.addEventListener('drop', function(e){
+      e.preventDefault();
+      this.classList.remove('drag');
+      if(e.dataTransfer.files && e.dataTransfer.files[0]){
+        handleSelectedPdf(e.dataTransfer.files[0]);
+      }
+    });
+  }
+
+  document.getElementById('pubForm').addEventListener('submit', async function(e){
+    e.preventDefault();
+    var saveBtn = document.getElementById('saveBtn');
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = '<span class="spinner"></span> Syncing to server database...';
+
+    var editId = document.getElementById('editId').value;
+    var title = document.getElementById('fTitle').value.trim();
+    var authors = document.getElementById('fAuthors').value.trim();
+    var category = document.getElementById('fCategory').value;
+    var date = document.getElementById('fDate').value;
+    var link = document.getElementById('fLink').value.trim();
+    var description = document.getElementById('fDesc').value.trim();
+
+    var pubCache = JPLData.getCache();
+    var existing = editId ? pubCache.find(function(p){ return p.id === editId; }) : null;
+
+    var entry = {
+      id: editId || ('pub-' + Date.now()),
+      title: title,
+      authors: authors,
+      category: category,
+      date: date,
+      link: link,
+      description: description,
+      hasPdf: existing ? (existing.hasPdf || false) : false,
+      pdfName: existing ? (existing.pdfName || '') : ''
+    };
+
+    var pdfDataUrl = pendingPdf ? pendingPdf.dataUrl : null;
+    if(pendingPdf){
+      entry.pdfName = pendingPdf.name;
+    }
+
+    var ok = await JPLData.savePublicationCentral(entry, pdfDataUrl, removeExistingPdfFlag);
+    saveBtn.disabled = false;
+
+    if(ok){
+      toast(editId ? 'Publication updated & synced across all users.' : 'Publication published globally!');
+      resetForm();
+      await JPLData.loadPublications();
+      renderAdminList();
+      renderStats();
+    } else {
+      saveBtn.textContent = editId ? 'Update publication' : 'Publish to site';
+      toast('Error syncing to database server.');
+    }
+  });
+
+  document.getElementById('cancelEditBtn').addEventListener('click', function(){
+    resetForm();
+  });
+});
+
+function showAuth(){
+  document.getElementById('adminAuth').style.display = 'flex';
+  document.getElementById('adminDash').classList.remove('active');
+}
+
+function showDashboard(){
+  document.getElementById('adminAuth').style.display = 'none';
+  document.getElementById('adminDash').classList.add('active');
+  renderAdminList();
+  renderStats();
+}
+
+function handleSelectedPdf(file){
+  if(file.type !== 'application/pdf' && !/\.pdf$/i.test(file.name)){
+    toast('Please select a valid PDF document.');
+    return;
+  }
+  if(file.size > 15 * 1024 * 1024){
+    toast('PDF file size is too large (max 15MB).');
+    return;
+  }
+
+  var reader = new FileReader();
+  reader.onload = function(evt){
+    pendingPdf = {
+      name: file.name,
+      dataUrl: evt.target.result
+    };
+    removeExistingPdfFlag = false;
+    renderFileChip(file.name);
+  };
+  reader.readAsDataURL(file);
+}
+
+function renderFileChip(name){
+  var wrap = document.getElementById('fileChipWrap');
+  if(!wrap) return;
+  wrap.innerHTML = '<div class="file-chip"><span>📄 ' + escapeHtml(name) + '</span><svg id="removePdfChip" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></div>';
+  document.getElementById('removePdfChip').onclick = function(){
+    pendingPdf = null;
+    removeExistingPdfFlag = true;
+    wrap.innerHTML = '';
+    document.getElementById('pdfFileInput').value = '';
+  };
+}
+
+function resetForm(){
+  document.getElementById('pubForm').reset();
+  document.getElementById('editId').value = '';
+  document.getElementById('fDate').valueAsDate = new Date();
+  document.getElementById('formTitleText').textContent = 'Add New Publication';
+  document.getElementById('saveBtn').textContent = 'Publish to site';
+  document.getElementById('cancelEditBtn').style.display = 'none';
+  document.getElementById('fileChipWrap').innerHTML = '';
+  pendingPdf = null;
+  removeExistingPdfFlag = false;
+}
+
+function renderStats(){
+  var pubCache = JPLData.getCache() || [];
+  document.getElementById('statTotal').textContent = pubCache.length;
+  var now = new Date();
+  var thisY = now.getFullYear();
+  var thisM = now.getMonth();
+  var count = pubCache.filter(function(p){
+    try {
+      var d = new Date(p.date + 'T00:00:00');
+      return d.getFullYear() === thisY && d.getMonth() === thisM;
+    } catch(e){ return false; }
+  }).length;
+  document.getElementById('statMonth').textContent = count;
+}
+
+function renderAdminList(){
+  var wrap = document.getElementById('adminTableWrap');
+  if(!wrap) return;
+  var pubCache = JPLData.getCache() || [];
+
+  if(pubCache.length === 0){
+    wrap.innerHTML = '<div class="pub-empty"><p>No publications created yet.</p></div>';
+    return;
+  }
+
+  wrap.innerHTML = pubCache.map(function(p){
+    var pdfIndicator = p.hasPdf ? ' &middot; <span style="color:#b3261e;font-weight:700;">PDF Attached</span>' : '';
+    return '' +
+      '<div class="admin-row">' +
+        '<div class="ar-main">' +
+          '<h4>' + escapeHtml(p.title) + '</h4>' +
+          '<div class="ar-meta"><span>' + escapeHtml(p.category) + '</span><span>' + fmtDate(p.date) + '</span>' + pdfIndicator + '</div>' +
+        '</div>' +
+        '<div class="ar-actions">' +
+          (p.hasPdf ? '<button class="icon-btn view-pdf-btn" data-id="' + p.id + '" data-title="' + escapeHtml(p.title) + '" title="View PDF"><svg viewBox="0 0 24 24"><path d="M4 4h11a3 3 0 013 3v13H7a3 3 0 01-3-3V4z"/><path d="M4 17a3 3 0 013-3h11"/></svg></button>' : '') +
+          '<button class="icon-btn" onclick="editPub(\'' + p.id + '\')" title="Edit"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>' +
+          '<button class="icon-btn danger" onclick="deletePub(\'' + p.id + '\')" title="Delete"><svg viewBox="0 0 24 24"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg></button>' +
+        '</div>' +
+      '</div>';
+  }).join('');
+
+  bindPdfButtons();
+}
+
+window.editPub = function(id){
+  var pubCache = JPLData.getCache() || [];
+  var p = pubCache.find(function(item){ return item.id === id; });
+  if(!p) return;
+
+  document.getElementById('editId').value = p.id;
+  document.getElementById('fTitle').value = p.title;
+  document.getElementById('fAuthors').value = p.authors;
+  document.getElementById('fCategory').value = p.category;
+  document.getElementById('fDate').value = p.date;
+  document.getElementById('fLink').value = p.link || '';
+  document.getElementById('fDesc').value = p.description;
+
+  document.getElementById('formTitleText').textContent = 'Edit Publication';
+  document.getElementById('saveBtn').textContent = 'Update publication';
+  document.getElementById('cancelEditBtn').style.display = 'inline-flex';
+
+  pendingPdf = null;
+  removeExistingPdfFlag = false;
+
+  if(p.hasPdf){
+    renderFileChip(p.pdfName || 'Attached PDF');
+  } else {
+    document.getElementById('fileChipWrap').innerHTML = '';
+  }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+window.deletePub = async function(id){
+  if(!confirm('Are you sure you want to delete this publication?')) return;
+  await JPLData.deletePublicationCentral(id);
+  await JPLData.loadPublications();
+  renderAdminList();
+  renderStats();
+  toast('Publication deleted & synced.');
+};
+</script>
+</body>
+</html>

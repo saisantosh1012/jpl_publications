@@ -1,0 +1,8 @@
+# Netlify Redirects File
+/api/* /.netlify/functions/api/:splat 200
+/admin /admin.html 200
+/publications /publications.html 200
+/conference /conference.html 200
+/consultancy /consultancy.html 200
+/books /books.html 200
+/about /about.html 200

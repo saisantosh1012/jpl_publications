@@ -1,0 +1,20 @@
+{
+  "name": "jpl-publications-server",
+  "version": "2.0.0",
+  "description": "JPL Publications Backend API Server & Central Storage",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "academic",
+    "publications",
+    "express",
+    "api"
+  ],
+  "author": "JPL Publications",
+  "license": "ISC",
+  "dependencies": {
+    "@netlify/blobs": "^11.0.2"
+  }
+}
